@@ -57,6 +57,8 @@ public class MaxProductOfThreeNumbers {
     System.out.println(Integer.MIN_VALUE * Integer.MAX_VALUE * Integer.MAX_VALUE); => -2147483648
     System.out.println(Integer.MIN_VALUE * Integer.MIN_VALUE * Integer.MIN_VALUE); => 0
 
+    难点：how to initialize max and min values
+
     time complexity: O(n)
     space complexity: O(1)
 
@@ -92,6 +94,6 @@ public class MaxProductOfThreeNumbers {
             }
         }
 
-        return Math.max(max3 * max2 * max1, max3 * min1 * min2);
+        return Math.max(max3 * max2 * max1, max1 * min1 * min2);
     }
 }
