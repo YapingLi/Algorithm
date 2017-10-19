@@ -1,54 +1,51 @@
+import java.util.HashMap;
+import java.util.Map;
 /*
 test case:
 1. common case: [1,2,2,3,1], [1,2,2,3,1,4,2]
 2. edge case: [0],
 3. large amount case: NA
+
+Note:
+import语句必须在java file的最最上面
 */
+
 public class DegreeOfArray {
     /*
     solution:
-    First, use HashMap to count the frequency of each element so the degree of the array and degree elements can be findMaxConsecutiveOnes_improved_1
-    Second, use two pointers to find the subarray length of  the degree element
+    Using HashMap to track three maps:
+    1. 数和它出现的次数； 2. 数和它第一次出现的index； 3. 数和它最后一次出现的index；
+    所以当计算出degree后，rightIndex - leftIndex + 1 就是它所对应的length
 
     time complexity: O(n)
     space complexity: O(n)
+
+    history:
+    1. count.put(key, count.getOrDefault(count.get(key), 0) + 1); it should be count.put(key, count.getOrDefault(key, 0) + 1);
     */
-    public int findShortestSubArray(int[] nums) {
-        Map<Integer, Integer> map = new HashMap<>();
+    public static int findShortestSubArray(int[] nums) {
+        Map<Integer, Integer> count = new HashMap<>();
+        Map<Integer, Integer> left = new HashMap<>();
+        Map<Integer, Integer> right = new HashMap<>();
 
         int degree = Integer.MIN_VALUE;
-        List<Integer> degreeElements = new ArrayList<>();
         for (int i = 0; i < nums.length; i++) {
-            map.put(nums[i], map.getOrDefault(map.get(nums[i]), 0) + 1);
-            if (map.get(nums[i]) == degree) {
-                degreeElements.add(nums[i]);
-            } else if (map.get(nums[i]) > degree) {
-                degree = map.get(nums[i]);
-                degreeElements.clear();
-                degreeElements.add(nums[i]);
+            int key = nums[i];
+            if (left.get(key) == null) {
+                left.put(key, i);
+            }
+            right.put(key, i);
+            count.put(key, count.getOrDefault(key, 0) + 1);
+            degree = Math.max(degree, count.get(key));
+        }
+
+        int res = Integer.MAX_VALUE;
+        for (Integer key : count.keySet()) {
+            if (count.get(key) == degree) {
+                res = Math.min(res, right.get(key) - left.get(key) + 1);
             }
         }
 
-        int res = nums.length;
-        for (Integer element : degreeElements) {
-            System.out.println("element: " + element);
-            int start = 0, end = nums.length - 1;
-            while (start <= end) {
-                if (nums[start] == element && nums[start] == nums[end]) {
-                    break;
-                } else if (nums[start] != element && nums[end] != element) {
-                    start++;
-                    end--;
-                } else if (nums[start] == element && nums[end] != element) {
-                    end--;
-                } else if (nums[end] == element && nums[start] != element) {
-                    start++;
-                }
-            }
-            res = Math.min(res, end - start + 1);
-        }
-
-        return res; 
+        return res;
     }
-
 }
