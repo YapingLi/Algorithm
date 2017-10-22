@@ -28,7 +28,7 @@ public class MissingNumber {
     /*
     solution: firstly sort and then look for the missing element
 
-    time complexity: O(n)
+    time complexity: O(nlogn)
     space complexity: implicitly sort() needs O(n) space
     */
     public int missingNumber_improved_1(int[] nums) {
@@ -68,6 +68,9 @@ public class MissingNumber {
 
     /*
     solution: use bit manipulation, 利用value和index相互抵消。 XOR（它符合交换律，而且 a^ b ^ b = a i.e. 0 ^ 8 = 8）
+    i.e. (val0 ^ 0) ^ (val1 ^ 1) ^ (val2 ^ 2) ^... ^ (valn ^ n)
+    if val2 is missing, which means all other vals exists, which means all other pairs result in 0, which means
+    the final result would be 2. Therefore, the missing number is 2.
 
     time complexity: O(n)
     space complexity: O(1)
