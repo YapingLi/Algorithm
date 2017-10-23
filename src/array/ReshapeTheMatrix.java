@@ -52,7 +52,7 @@ public class ReshapeTheMatrix {
 
     formula:
     1. arr2[x][y] => arr1[x * ySize + y]
-    2. arr1[i] => arr2[i / ySize, i % ySize]
+    2. arr1[i] => arr2[i / ySize][i % ySize]
     */
     public int[][] matrixReshape_improved(int[][] nums, int r, int c) {
         if (nums == null || r < 0 || c < 0 || nums.length == 0) return nums;

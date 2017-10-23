@@ -20,30 +20,51 @@ public class PlusOne {
     public int[] plusOne(int[] digits) {
         int len = digits.length, carry = 0, sum = 0;
         for (int i = len - 1; i >= 0; i--) {
+            /*
+            It's redundant. We can initialize carry to 1 go get rid of conditions.
+            */
             if (i == len - 1) {
                 sum = digits[len - 1] + 1;
             } else {
                 sum = digits[i] + carry;
             }
-            if (sum / 10 < 1) {
-                digits[i] = sum;
-                carry = 0;
-                break;
-            } else {
-                carry = sum / 10;
-                digits[i] = sum % 10;
-            }
+            digits[i] = sum % 10;
+            carry = sum / 10;
+            if (carry == 0) break;
         }
 
         if (carry > 0) {
+            /*
+            It's redundant. In this condition, only leading digit is 1, all the other is 0.
+            So, no need to increase space complexity and use for-loop to assign the 0 val.
+            */
             int[] res = new int[len+1];
             res[0] = carry;
             for (int i = 1; i < len + 1; i++) {
-                res[i] = digits[i-1];
-            }
+            res[i] = digits[i-1];
             return res;
+            }
         }
 
+        return digits;
+    }
+
+    /*
+    time complexity: O(n)
+    space complexity: O(1)
+    */
+    public int[] plusOne_improved_1(int[] digits) {
+        int len = digits.length, carry = 1;
+        for (int i = len - 1; i >= 0; i--) {
+            int sum = digits[i] + carry; //initialize carry to 1 to get rid of conditions
+            digits[i] = sum % 10;
+            carry = sum / 10;
+            if (carry == 0) break;
+        }
+        if (carry > 0) { //to get rid of extra space usage
+            digits = new int[len+1];
+            digits[0] = 1;
+        }
         return digits;
     }
 }
